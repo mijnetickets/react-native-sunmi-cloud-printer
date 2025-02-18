@@ -1,10 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { ReactNativeSunmiCloudPrinterViewProps } from "./ReactNativeSunmiCloudPrinter.types";
+import { ReactNativeSunmiCloudPrinterViewProps } from './ReactNativeSunmiCloudPrinter.types';
 
-export default function ReactNativeSunmiCloudPrinterView(
-  props: ReactNativeSunmiCloudPrinterViewProps
-) {
+export default function ReactNativeSunmiCloudPrinterView(props: ReactNativeSunmiCloudPrinterViewProps) {
   return (
     <div>
       <span>{props.name}</span>

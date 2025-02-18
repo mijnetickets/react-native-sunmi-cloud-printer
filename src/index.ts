@@ -1,9 +1,5 @@
-import {
-  NativeModulesProxy,
-  EventEmitter,
-  Subscription,
-} from "expo-modules-core";
-import { Platform, PermissionsAndroid } from "react-native";
+import { EventEmitter, Subscription } from 'expo-modules-core';
+import { Platform, PermissionsAndroid } from 'react-native';
 
 // Import the native module. On web, it will be resolved to ReactNativeSunmiCloudPrinter.web.ts
 // and on native platforms to ReactNativeSunmiCloudPrinter.ts
@@ -14,14 +10,14 @@ import {
   SunmiCloudPrinter,
   SunmiError,
   PrinterConnectionPayload,
-} from "./ReactNativeSunmiCloudPrinter.types";
-import ReactNativeSunmiCloudPrinterModule from "./ReactNativeSunmiCloudPrinterModule";
-import ReactNativeSunmiCloudPrinterView from "./ReactNativeSunmiCloudPrinterView";
+} from './ReactNativeSunmiCloudPrinter.types';
+import ReactNativeSunmiCloudPrinterModule from './ReactNativeSunmiCloudPrinterModule';
+import ReactNativeSunmiCloudPrinterView from './ReactNativeSunmiCloudPrinterView';
 
 export { PrinterInterface, SunmiCloudPrinter, SunmiError };
 
 export function setup() {
-  if (Platform.OS === "ios") {
+  if (Platform.OS === 'ios') {
     // Native setup is only required on iOS
     ReactNativeSunmiCloudPrinterModule.setup();
   }
@@ -31,9 +27,7 @@ export function setTimeout(timeout: number) {
   ReactNativeSunmiCloudPrinterModule.setTimeout(timeout);
 }
 
-export async function discoverPrinters(
-  printerInterface: PrinterInterface
-): Promise<void> {
+export async function discoverPrinters(printerInterface: PrinterInterface): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.discoverPrinters(printerInterface);
 }
 
@@ -47,10 +41,7 @@ interface ConnectLanPrinterProps {
   // If set to true, it will force the connection even if the printer is not in the list of discovered printers
   force: boolean;
 }
-export async function connectLanPrinter({
-  ipAddress,
-  force,
-}: ConnectLanPrinterProps): Promise<void> {
+export async function connectLanPrinter({ ipAddress, force }: ConnectLanPrinterProps): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.connectLanPrinter(ipAddress, force);
 }
 
@@ -59,7 +50,7 @@ export function isPrinterConnected(): Promise<boolean> {
 }
 
 export function checkBluetoothPermissions(): Promise<boolean> {
-  if (Platform.OS === "android") {
+  if (Platform.OS === 'android') {
     return ReactNativeSunmiCloudPrinterModule.checkBluetoothPermissions();
   } else {
     return Promise.resolve(true);
@@ -68,42 +59,34 @@ export function checkBluetoothPermissions(): Promise<boolean> {
 
 export const requestBluetoothPermissions = async (): Promise<void> => {
   try {
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       // 1) Request Location permission
-      const grantedLocation = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Access Fine Location",
-          message:
-            "Sunmi Cloud Printer needs access to your location for bluetooth connection",
-          buttonPositive: "OK",
-        }
-      );
+      const grantedLocation = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+        title: 'Access Fine Location',
+        message: 'Sunmi Cloud Printer needs access to your location for bluetooth connection',
+        buttonPositive: 'OK',
+      });
       if (grantedLocation !== PermissionsAndroid.RESULTS.GRANTED) {
         // If never asked again... we must inform the customer that this permission is required to run the app
         throw new SunmiError(
-          "ERROR_INVALID_PERMISSIONS",
-          "Access Fine Location permission denied. Please, go to Android settings and enable it."
+          'ERROR_INVALID_PERMISSIONS',
+          'Access Fine Location permission denied. Please, go to Android settings and enable it.'
         );
       }
 
       // 2) Request extra Bluetooth permissions (required for Android API 31+)
       if (Platform.Version >= 31) {
         // BLUETOOTH_SCAN
-        const grantedBluetoothScan = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-          {
-            title: "Access Bluetooth Scan",
-            message:
-              "Sunmi Cloud Printer needs access to your bluetooth for printing",
-            buttonPositive: "OK",
-          }
-        );
+        const grantedBluetoothScan = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN, {
+          title: 'Access Bluetooth Scan',
+          message: 'Sunmi Cloud Printer needs access to your bluetooth for printing',
+          buttonPositive: 'OK',
+        });
         if (grantedBluetoothScan !== PermissionsAndroid.RESULTS.GRANTED) {
           // If never asked again... we must inform the customer that this permission is required to run the app
           throw new SunmiError(
-            "ERROR_INVALID_PERMISSIONS",
-            "Bluetooth permission denied. Please, go to Android settings and enable it."
+            'ERROR_INVALID_PERMISSIONS',
+            'Bluetooth permission denied. Please, go to Android settings and enable it.'
           );
         }
 
@@ -111,17 +94,16 @@ export const requestBluetoothPermissions = async (): Promise<void> => {
         const grantedBluetoothConnect = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
           {
-            title: "Access Bluetooth",
-            message:
-              "Sunmi Cloud Printer needs access to your bluetooth for printing",
-            buttonPositive: "OK",
+            title: 'Access Bluetooth',
+            message: 'Sunmi Cloud Printer needs access to your bluetooth for printing',
+            buttonPositive: 'OK',
           }
         );
         if (grantedBluetoothConnect !== PermissionsAndroid.RESULTS.GRANTED) {
           // If never asked again... we must inform the customer that this permission is required to run the app
           throw new SunmiError(
-            "ERROR_INVALID_PERMISSIONS",
-            "Bluetooth permission denied. Please, go to Android settings and enable it."
+            'ERROR_INVALID_PERMISSIONS',
+            'Bluetooth permission denied. Please, go to Android settings and enable it.'
           );
         }
       }
@@ -129,7 +111,7 @@ export const requestBluetoothPermissions = async (): Promise<void> => {
     return Promise.resolve();
   } catch (e) {
     if (__DEV__) {
-      console.error("Error requesting Bluetooth permissions", e);
+      console.error('Error requesting Bluetooth permissions', e);
     }
     return Promise.reject(e);
   }
@@ -138,26 +120,19 @@ export const requestBluetoothPermissions = async (): Promise<void> => {
 interface ConnectBluetoothPrinterProps {
   uuid: string;
 }
-export async function connectBluetoothPrinter({
-  uuid,
-}: ConnectBluetoothPrinterProps): Promise<void> {
+export async function connectBluetoothPrinter({ uuid }: ConnectBluetoothPrinterProps): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.connectBluetoothPrinter(uuid);
 }
 
 interface ConnectUSBPrinterProps {
   name: string;
 }
-export async function connectUSBPrinter({
-  name,
-}: ConnectUSBPrinterProps): Promise<void> {
-  if (Platform.OS === "android") {
+export async function connectUSBPrinter({ name }: ConnectUSBPrinterProps): Promise<void> {
+  if (Platform.OS === 'android') {
     return ReactNativeSunmiCloudPrinterModule.connectUSBPrinter(name);
   } else {
     return Promise.reject(
-      new SunmiError(
-        "ERROR_UNSUPPORTED_PLATFORM",
-        "USB connection is not supported on this platform"
-      )
+      new SunmiError('ERROR_UNSUPPORTED_PLATFORM', 'USB connection is not supported on this platform')
     );
   }
 }
@@ -170,10 +145,8 @@ export function lineFeed(lines: number): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.lineFeed(lines);
 }
 
-export function setTextAlign(
-  textAlign: "left" | "right" | "center"
-): Promise<void> {
-  const align = textAlign === "left" ? 0 : textAlign === "right" ? 2 : 1;
+export function setTextAlign(textAlign: 'left' | 'right' | 'center'): Promise<void> {
+  const align = textAlign === 'left' ? 0 : textAlign === 'right' ? 2 : 1;
   return ReactNativeSunmiCloudPrinterModule.setTextAlign(align);
 }
 
@@ -182,16 +155,8 @@ interface SetPrintModesProps {
   doubleHeight: boolean;
   doubleWidth: boolean;
 }
-export function setPrintModesBold({
-  bold,
-  doubleHeight,
-  doubleWidth,
-}: SetPrintModesProps): Promise<void> {
-  return ReactNativeSunmiCloudPrinterModule.setPrintModesBold(
-    bold,
-    doubleHeight,
-    doubleWidth
-  );
+export function setPrintModesBold({ bold, doubleHeight, doubleWidth }: SetPrintModesProps): Promise<void> {
+  return ReactNativeSunmiCloudPrinterModule.setPrintModesBold(bold, doubleHeight, doubleWidth);
 }
 
 export function restoreDefaultSettings(): Promise<void> {
@@ -215,16 +180,8 @@ interface AddImageProps {
   width: number;
   height: number;
 }
-export function addImage({
-  base64,
-  width,
-  height,
-}: AddImageProps): Promise<void> {
-  return ReactNativeSunmiCloudPrinterModule.addImage(
-    base64,
-    Math.floor(width),
-    Math.floor(height)
-  );
+export function addImage({ base64, width, height }: AddImageProps): Promise<void> {
+  return ReactNativeSunmiCloudPrinterModule.addImage(base64, Math.floor(width), Math.floor(height));
 }
 
 export function clearBuffer(): Promise<void> {
@@ -239,47 +196,30 @@ export function openCashDrawer(): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.openCashDrawer();
 }
 
-const emitter = new EventEmitter(
-  ReactNativeSunmiCloudPrinterModule ??
-    NativeModulesProxy.ReactNativeSunmiCloudPrinter
-);
+const emitter = new EventEmitter(ReactNativeSunmiCloudPrinterModule);
 
 export type CloudPrinterStatus =
-  | "OFFLINE"
-  | "UNKNOWN"
-  | "RUNNING"
-  | "NEAR_OUT_PAPER"
-  | "OUT_PAPER"
-  | "JAM_PAPER"
-  | "PICK_PAPER"
-  | "COVER"
-  | "OVER_HOT"
-  | "MOTOR_HOT";
+  | 'OFFLINE'
+  | 'UNKNOWN'
+  | 'RUNNING'
+  | 'NEAR_OUT_PAPER'
+  | 'OUT_PAPER'
+  | 'JAM_PAPER'
+  | 'PICK_PAPER'
+  | 'COVER'
+  | 'OVER_HOT'
+  | 'MOTOR_HOT';
 
 export async function getDeviceState(): Promise<CloudPrinterStatus> {
   return ReactNativeSunmiCloudPrinterModule.getDeviceState();
 }
 
-export function printersListener(
-  listener: (event: PrintersEventPayload) => void
-): Subscription {
-  return emitter.addListener<PrintersEventPayload>(
-    "onUpdatePrinters",
-    listener
-  );
+export function printersListener(listener: (event: PrintersEventPayload) => void): Subscription {
+  return emitter.addListener<PrintersEventPayload>('onUpdatePrinters', listener);
 }
 
-export function printerConnectionListener(
-  listener: (event: PrinterConnectionPayload) => void
-): Subscription {
-  return emitter.addListener<PrinterConnectionPayload>(
-    "onPrinterConnectionUpdate",
-    listener
-  );
+export function printerConnectionListener(listener: (event: PrinterConnectionPayload) => void): Subscription {
+  return emitter.addListener<PrinterConnectionPayload>('onPrinterConnectionUpdate', listener);
 }
 
-export {
-  ReactNativeSunmiCloudPrinterView,
-  ReactNativeSunmiCloudPrinterViewProps,
-  PrintersEventPayload,
-};
+export { ReactNativeSunmiCloudPrinterView, ReactNativeSunmiCloudPrinterViewProps, PrintersEventPayload };

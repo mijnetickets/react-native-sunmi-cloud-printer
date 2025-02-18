@@ -1,5 +1,5 @@
-import { useNavigation } from "expo-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigation } from 'expo-router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -11,77 +11,60 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
-import {
-  useSafeAreaInsets,
-  SafeAreaView,
-} from "react-native-safe-area-context";
-import * as SunmiSDK from "react-native-sunmi-cloud-printer";
+} from 'react-native';
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
+import * as SunmiSDK from 'react-native-sunmi-cloud-printer';
 
-import Button from "../components/button";
-import { Image } from "../components/image";
-import Pressable from "../components/pressable";
-import PrinterItem from "../components/printerItem";
+import Button from '../components/button';
+import { Image } from '../components/image';
+import Pressable from '../components/pressable';
+import PrinterItem from '../components/printerItem';
 
 export default function App() {
   const navigation = useNavigation();
   const [discovering, setDiscovering] = useState(false);
-  const [selectedInterface, setSelectedInterface] = useState<
-    SunmiSDK.PrinterInterface | undefined
-  >();
-  const [discoveredPrinters, setDiscoveredPrinters] = useState<
-    SunmiSDK.SunmiCloudPrinter[]
-  >([]);
-  const [selectedPrinter, setSelectedPrinter] = useState<
-    SunmiSDK.SunmiCloudPrinter | undefined
-  >();
-  const [connectionStatus, setConnectionStatus] = useState<
-    "not-connected" | "connecting" | "connected"
-  >("not-connected");
-  const [printStatus, setPrintStatus] = useState<
-    "Idle" | "Preparing" | "Printing" | "Printed"
-  >("Idle");
+  const [selectedInterface, setSelectedInterface] = useState<SunmiSDK.PrinterInterface | undefined>();
+  const [discoveredPrinters, setDiscoveredPrinters] = useState<SunmiSDK.SunmiCloudPrinter[]>([]);
+  const [selectedPrinter, setSelectedPrinter] = useState<SunmiSDK.SunmiCloudPrinter | undefined>();
+  const [connectionStatus, setConnectionStatus] = useState<'not-connected' | 'connecting' | 'connected'>(
+    'not-connected'
+  );
+  const [printStatus, setPrintStatus] = useState<'Idle' | 'Preparing' | 'Printing' | 'Printed'>('Idle');
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const safeAreaInsets = useSafeAreaInsets();
   const [manualIpAddress, setManualIpAddress] = useState<string | undefined>();
 
   const canPrint = useMemo(() => {
-    return (
-      selectedPrinter !== undefined &&
-      connectionStatus === "connected" &&
-      printStatus === "Idle"
-    );
+    return selectedPrinter !== undefined && connectionStatus === 'connected' && printStatus === 'Idle';
   }, [connectionStatus, selectedPrinter, printStatus]);
 
   const printers = useMemo((): SunmiSDK.SunmiCloudPrinter[] => {
-    return discoveredPrinters.filter(
-      (printer) => printer.interface === selectedInterface
-    );
+    return discoveredPrinters.filter((printer) => printer.interface === selectedInterface);
   }, [discoveredPrinters, selectedInterface]);
 
   const showError = useCallback((message: string) => {
-    Alert.alert("Error", message);
+    Alert.alert('Error', message);
   }, []);
 
   const onDisconnectPrinter = useCallback(() => {
     setSelectedPrinter(undefined);
-    setPrintStatus("Idle");
+    setPrintStatus('Idle');
     return new Promise<void>(async (resolve, reject) => {
       try {
         const isConnected = await SunmiSDK.isPrinterConnected();
         if (isConnected) {
           if (__DEV__) {
-            console.log("🔌 Disconnecting printer...");
+            console.log('🔌 Disconnecting printer...');
           }
           await SunmiSDK.disconnectPrinter();
           if (__DEV__) {
-            console.log("✅ Printer disconnected");
+            console.log('✅ Printer disconnected');
           }
         }
         resolve();
       } catch (e) {
         if (__DEV__) {
-          console.log("❌ Error disconnecting printer", e);
+          console.log('❌ Error disconnecting printer', e);
         }
         reject(e);
       }
@@ -107,28 +90,28 @@ export default function App() {
   const onConnectToPrinter = useCallback(async () => {
     try {
       if (__DEV__) {
-        console.log("🔌 Connecting to printer...", selectedPrinter);
+        console.log('🔌 Connecting to printer...', selectedPrinter);
       }
       const currentPrinter = selectedPrinter!;
       // If we have an open connection, we should not connect again. Manually, we check the current connection status.
       const isConnected = await SunmiSDK.isPrinterConnected();
       if (!isConnected) {
-        setConnectionStatus("connecting");
+        setConnectionStatus('connecting');
         switch (currentPrinter.interface) {
-          case "BLUETOOTH": {
+          case 'BLUETOOTH': {
             await SunmiSDK.connectBluetoothPrinter({
               uuid: currentPrinter.uuid,
             });
             break;
           }
-          case "LAN": {
+          case 'LAN': {
             await SunmiSDK.connectLanPrinter({
               ipAddress: currentPrinter.ip,
               force: true,
             });
             break;
           }
-          case "USB": {
+          case 'USB': {
             await SunmiSDK.connectUSBPrinter({
               name: currentPrinter.name,
             });
@@ -143,20 +126,16 @@ export default function App() {
 
   const onPrintTestPage = useCallback(async () => {
     // Update the print status to start the printing process
-    setPrintStatus("Preparing");
+    setPrintStatus('Preparing');
   }, [connectionStatus, selectedPrinter]);
 
   const onGetDeviceState = useCallback(async () => {
     try {
       await SunmiSDK.clearBuffer();
       const state = await SunmiSDK.getDeviceState();
-      Alert.alert("Printer State", `State: "${state}"`);
+      Alert.alert('Printer State', `State: "${state}"`);
     } catch (e) {
-      Alert.alert(
-        "Error",
-        "An error occurred while getting the printer state:\n" +
-          (e as Error | undefined)?.message
-      );
+      Alert.alert('Error', 'An error occurred while getting the printer state:\n' + (e as Error | undefined)?.message);
     }
   }, []);
 
@@ -179,15 +158,15 @@ export default function App() {
     } catch (e) {
       const sunmiError = e as SunmiSDK.SunmiError | undefined;
       if (__DEV__) {
-        console.log("❌ Error discovering printers", e);
+        console.log('❌ Error discovering printers', e);
       }
-      if (sunmiError?.code === "ERROR_INVALID_PERMISSIONS") {
+      if (sunmiError?.code === 'ERROR_INVALID_PERMISSIONS') {
         // Request permissions
         try {
           const havePermissions = await SunmiSDK.checkBluetoothPermissions();
 
           if (!havePermissions) {
-            console.log("Requesting Bluetooth permissions...");
+            console.log('Requesting Bluetooth permissions...');
             await SunmiSDK.requestBluetoothPermissions();
           }
         } catch (e) {
@@ -212,70 +191,54 @@ export default function App() {
 
   const connectViaManualIpAddressButton = useMemo(() => {
     return (
-      selectedInterface === "LAN" && (
+      selectedInterface === 'LAN' && (
         <Pressable
           disabled={
-            !selectedInterface ||
-            discovering ||
-            connectionStatus === "connecting" ||
-            printStatus === "Printing"
+            !selectedInterface || discovering || connectionStatus === 'connecting' || printStatus === 'Printing'
           }
           onPress={() => {
             setIsVisibleModal(true);
-            if (Platform.OS === "android") {
+            if (Platform.OS === 'android') {
               // On Android, we need first need to discover the printers.
               // Then, given the IP address, if it exists, we can set it manually.
-              SunmiSDK.discoverPrinters("LAN").catch((e) => {
+              SunmiSDK.discoverPrinters('LAN').catch((e) => {
                 showSunmiError(e as any);
               });
             }
           }}
-          style={{ flexDirection: "row" }}
+          style={{ flexDirection: 'row' }}
         >
-          <Text style={{ fontWeight: "bold" }}>Set IP</Text>
+          <Text style={{ fontWeight: 'bold' }}>Set IP</Text>
         </Pressable>
       )
     );
   }, [connectionStatus, discovering, printStatus, selectedInterface]);
 
   const headerLeft = useMemo(() => {
-    return () => Platform.OS === "ios" && connectViaManualIpAddressButton;
+    return () => Platform.OS === 'ios' && connectViaManualIpAddressButton;
   }, [connectViaManualIpAddressButton]);
 
   const headerRight = useMemo(() => {
     return () => (
-      <View style={{ flexDirection: "row" }}>
-        {Platform.OS === "android" ? connectViaManualIpAddressButton : null}
+      <View style={{ flexDirection: 'row' }}>
+        {Platform.OS === 'android' ? connectViaManualIpAddressButton : null}
         <Pressable
           disabled={
-            !selectedInterface ||
-            discovering ||
-            connectionStatus === "connecting" ||
-            printStatus === "Printing"
+            !selectedInterface || discovering || connectionStatus === 'connecting' || printStatus === 'Printing'
           }
           onPress={onDiscover}
-          style={{ flexDirection: "row" }}
+          style={{ flexDirection: 'row' }}
         >
-          {discovering ? (
-            <ActivityIndicator />
-          ) : (
-            <Text style={{ fontWeight: "bold" }}>Discover</Text>
-          )}
+          {discovering ? <ActivityIndicator /> : <Text style={{ fontWeight: 'bold' }}>Discover</Text>}
         </Pressable>
       </View>
     );
-  }, [
-    connectionStatus,
-    discovering,
-    onDiscover,
-    printStatus,
-    selectedInterface,
-  ]);
+  }, [connectionStatus, discovering, onDiscover, printStatus, selectedInterface]);
 
   useEffect(() => {
     // Set a title for the screen
     navigation.setOptions({
-      title: "Sunmi Cloud Printer SDK",
+      title: 'Sunmi Cloud Printer SDK',
       headerLeft,
       headerRight,
     });
@@ -292,15 +255,13 @@ export default function App() {
     const printersSubscription = SunmiSDK.printersListener((event) => {
       setDiscoveredPrinters(event.printers);
     });
-    const printerConnectionSubscription = SunmiSDK.printerConnectionListener(
-      (event) => {
-        setConnectionStatus(event.connected ? "connected" : "not-connected");
-      }
-    );
+    const printerConnectionSubscription = SunmiSDK.printerConnectionListener((event) => {
+      setConnectionStatus(event.connected ? 'connected' : 'not-connected');
+    });
 
     return () => {
       if (__DEV__) {
-        console.log("❌ Remove subscriptions");
+        console.log('❌ Remove subscriptions');
       }
       printersSubscription.remove();
       printerConnectionSubscription.remove();
@@ -309,13 +270,11 @@ export default function App() {
 
   const renderItem: ListRenderItem<SunmiSDK.SunmiCloudPrinter> = useCallback(
     ({ item }) => {
-      const selected =
-        selectedPrinter?.interface === item.interface &&
-        selectedPrinter?.name === item.name;
+      const selected = selectedPrinter?.interface === item.interface && selectedPrinter?.name === item.name;
       return (
         <PrinterItem
           printer={item}
-          connected={connectionStatus === "connected"}
+          connected={connectionStatus === 'connected'}
           selected={selected}
           onPress={() => {
             if (selected) {
@@ -330,35 +289,30 @@ export default function App() {
     [connectionStatus, onDisconnectPrinter, selectedPrinter]
   );
 
-  const showSunmiError = useCallback(
-    (error: SunmiSDK.SunmiError | undefined) => {
-      console.error(error);
-      const errorMessage =
-        error?.code && error?.message
-          ? `Code:${error.code}\nReason:${error.message}`
-          : `An error occurred`;
-      showError(errorMessage);
-    },
-    []
-  );
+  const showSunmiError = useCallback((error: SunmiSDK.SunmiError | undefined) => {
+    console.error(error);
+    const errorMessage =
+      error?.code && error?.message ? `Code:${error.code}\nReason:${error.message}` : `An error occurred`;
+    showError(errorMessage);
+  }, []);
 
   // Keep track of the print status
   useEffect(() => {
     switch (printStatus) {
-      case "Preparing": {
+      case 'Preparing': {
         if (connectionStatus) {
-          setPrintStatus("Printing");
+          setPrintStatus('Printing');
         }
         break;
       }
-      case "Printing": {
+      case 'Printing': {
         onSendTestPrint().finally(() => {
-          setPrintStatus("Printed");
+          setPrintStatus('Printed');
         });
         break;
       }
-      case "Printed": {
-        setPrintStatus("Idle");
+      case 'Printed': {
+        setPrintStatus('Idle');
         break;
       }
       default:
@@ -366,55 +320,50 @@ export default function App() {
     }
   }, [connectionStatus, printStatus]);
 
-  const onDismissModal = useCallback(
-    ({ disconnect }: { disconnect: boolean }) => {
-      if (disconnect) {
-        onDisconnectPrinter();
-      }
-      setIsVisibleModal(false);
-    },
-    []
-  );
+  const onDismissModal = useCallback(({ disconnect }: { disconnect: boolean }) => {
+    if (disconnect) {
+      onDisconnectPrinter();
+    }
+    setIsVisibleModal(false);
+  }, []);
 
   const onSetManualIPAddress = useCallback(() => {
     onDismissModal({ disconnect: false });
 
     const printer: SunmiSDK.SunmiCloudPrinter = {
-      interface: "LAN",
-      name: "Manual",
+      interface: 'LAN',
+      name: 'Manual',
       ip: manualIpAddress!,
     };
     setDiscoveredPrinters([printer]);
   }, [manualIpAddress]);
 
   return (
-    <SafeAreaView edges={["bottom", "left", "right"]} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
       <Modal
         animationType="fade"
         transparent={true}
         visible={isVisibleModal}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
         }}
       >
         <View
           style={{
             flex: 1,
-            alignItems: "center",
-            backgroundColor: "#fff",
+            alignItems: 'center',
+            backgroundColor: '#fff',
             paddingTop: safeAreaInsets.top,
           }}
         >
-          <Text style={{ fontWeight: "bold", paddingVertical: 5 }}>
-            Set IP Address:
-          </Text>
+          <Text style={{ fontWeight: 'bold', paddingVertical: 5 }}>Set IP Address:</Text>
           <TextInput
             placeholder="IP Address:"
             onChangeText={(text) => {
               setManualIpAddress(text);
             }}
           />
-          <View style={{ flexDirection: "row", marginTop: 15 }}>
+          <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <Button
               title="Cancel"
               onPress={() => {
@@ -434,41 +383,39 @@ export default function App() {
       <FlatList
         data={printers}
         renderItem={renderItem}
-        keyExtractor={(printer, index) =>
-          `${index}-${printer.interface}-${printer.name}`
-        }
-        style={{ width: "100%" }}
+        keyExtractor={(printer, index) => `${index}-${printer.interface}-${printer.name}`}
+        style={{ width: '100%' }}
         ListHeaderComponent={() => (
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
               padding: 5,
             }}
           >
             <Button
               title="Bluetooth"
-              selected={selectedInterface === "BLUETOOTH"}
+              selected={selectedInterface === 'BLUETOOTH'}
               onPress={() => {
-                onSelectInterface("BLUETOOTH");
+                onSelectInterface('BLUETOOTH');
               }}
             />
             <View style={{ width: 5 }} />
             <Button
               title="Lan"
-              selected={selectedInterface === "LAN"}
+              selected={selectedInterface === 'LAN'}
               onPress={() => {
-                onSelectInterface("LAN");
+                onSelectInterface('LAN');
               }}
             />
             <View style={{ width: 5 }} />
-            {Platform.OS === "android" && (
+            {Platform.OS === 'android' && (
               <Button
                 title="USB"
-                selected={selectedInterface === "USB"}
+                selected={selectedInterface === 'USB'}
                 onPress={() => {
-                  onSelectInterface("USB");
+                  onSelectInterface('USB');
                 }}
               />
             )}
@@ -477,26 +424,19 @@ export default function App() {
       />
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
           padding: 10,
         }}
       >
         <Button
-          backgroundColor={
-            connectionStatus === "connected" ? "#e74c3c" : "#34495e"
-          }
-          disabled={
-            discovering ||
-            !selectedPrinter ||
-            connectionStatus === "connecting" ||
-            printStatus === "Printing"
-          }
-          title={connectionStatus === "connected" ? "Disconnect" : "Connect"}
+          backgroundColor={connectionStatus === 'connected' ? '#e74c3c' : '#34495e'}
+          disabled={discovering || !selectedPrinter || connectionStatus === 'connecting' || printStatus === 'Printing'}
+          title={connectionStatus === 'connected' ? 'Disconnect' : 'Connect'}
           textColor="white"
           onPress={() => {
-            if (connectionStatus === "connected") {
+            if (connectionStatus === 'connected') {
               onDisconnectPrinter();
             } else {
               onConnectToPrinter();
@@ -525,8 +465,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
