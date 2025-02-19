@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/SunmiIpPrinterModel.h</key>
 		<data>
-		mj1QONoXWEPHW42a1TABmzwqV9U=
+		N8C5yMFw4fne/TajkNFA5KzI2KQ=
 		</data>
 		<key>Headers/SunmiPrinterCommand.h</key>
 		<data>
@@ -18,11 +18,11 @@
 		</data>
 		<key>Headers/SunmiPrinterHeader.h</key>
 		<data>
-		fgaTB1UpQUjnVq9agtPpqS+izDE=
+		SM287NAq/vylVzfWZY9T8xgRMVU=
 		</data>
 		<key>Headers/SunmiPrinterIPManager.h</key>
 		<data>
-		EX+YvdRGsS+LMXyK+YFL/0nJtzw=
+		UBWoLKi0UE4VXLTnZV49IggLMDM=
 		</data>
 		<key>Headers/SunmiPrinterManager.h</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		/604FqLs97CzRw+H7GxfMXhVApI=
+		4XJpa/LadjanK4JjUIA5Xy3zNnI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -58,11 +58,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mj1QONoXWEPHW42a1TABmzwqV9U=
+			N8C5yMFw4fne/TajkNFA5KzI2KQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			IvlWjnPcW0PUxbKiih+/P3aR2LA4giNHJziLpTnlxmY=
+			P+USau0m84Qn+f+WI3g57aiIVwVvQASGnSBso8Q6kU0=
 			</data>
 		</dict>
 		<key>Headers/SunmiPrinterCommand.h</key>
@@ -80,22 +80,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fgaTB1UpQUjnVq9agtPpqS+izDE=
+			SM287NAq/vylVzfWZY9T8xgRMVU=
 			</data>
 			<key>hash2</key>
 			<data>
-			K+e2/4L9hhtfVkQD+YbEpw9GpKbkU7rnhPpUYXtKc+I=
+			tVZs7gK4p9VnXud6j4cZOGYXfC14eliN8JF+J49iEHs=
 			</data>
 		</dict>
 		<key>Headers/SunmiPrinterIPManager.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			EX+YvdRGsS+LMXyK+YFL/0nJtzw=
+			UBWoLKi0UE4VXLTnZV49IggLMDM=
 			</data>
 			<key>hash2</key>
 			<data>
-			H6eMhx3IfWJNfu7VfY4mUs9kjeF1H4ecUfApfFVrbEY=
+			2DMJqBoG7V0kKVyN1MJVgiyiiL+hMzyCuVtfYLwSTms=
 			</data>
 		</dict>
 		<key>Headers/SunmiPrinterManager.h</key>

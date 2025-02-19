@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *deviceIP;
 
 /**
+ * 设备端口
+ */
+@property (nonatomic, strong) NSNumber *devicePort;
+
+/**
  * 设备名称
  */
 @property (nonatomic, copy) NSString *deviceName;
@@ -24,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 设备 Mode
  */
-@property (nonatomic, copy) NSString *deviceMode;
+@property (nonatomic, copy) NSString *deviceMode __attribute__((deprecated("This property is deprecated")));
 
 /**
  * 设备 SN
  */
-@property (nonatomic, copy) NSString *deviceSN;
+@property (nonatomic, copy) NSString *deviceSN __attribute__((deprecated("This property is deprecated")));;
 
 
 @end

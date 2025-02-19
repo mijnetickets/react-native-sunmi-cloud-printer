@@ -45,8 +45,15 @@ export async function connectLanPrinter({ ipAddress, force }: ConnectLanPrinterP
   return ReactNativeSunmiCloudPrinterModule.connectLanPrinter(ipAddress, force);
 }
 
-export function isPrinterConnected(): Promise<boolean> {
-  return ReactNativeSunmiCloudPrinterModule.isPrinterConnected();
+export function isPrinterConnected(printer: SunmiCloudPrinter): Promise<boolean> {
+  switch (printer.interface) {
+    case 'BLUETOOTH':
+      return ReactNativeSunmiCloudPrinterModule.isBluetoothPrinterConnected(printer.uuid);
+    case 'LAN':
+      return ReactNativeSunmiCloudPrinterModule.isLanPrinterConnected(printer.ip);
+    case 'USB':
+      return ReactNativeSunmiCloudPrinterModule.isUSBPrinterConnected(printer.name);
+  }
 }
 
 export function checkBluetoothPermissions(): Promise<boolean> {

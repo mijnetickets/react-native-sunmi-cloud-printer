@@ -51,7 +51,7 @@ export default function App() {
     setPrintStatus('Idle');
     return new Promise<void>(async (resolve, reject) => {
       try {
-        const isConnected = await SunmiSDK.isPrinterConnected();
+        const isConnected = selectedPrinter ? await SunmiSDK.isPrinterConnected(selectedPrinter) : false;
         if (isConnected) {
           if (__DEV__) {
             console.log('🔌 Disconnecting printer...');
@@ -94,7 +94,7 @@ export default function App() {
       }
       const currentPrinter = selectedPrinter!;
       // If we have an open connection, we should not connect again. Manually, we check the current connection status.
-      const isConnected = await SunmiSDK.isPrinterConnected();
+      const isConnected = await SunmiSDK.isPrinterConnected(currentPrinter);
       if (!isConnected) {
         setConnectionStatus('connecting');
         switch (currentPrinter.interface) {
@@ -199,7 +199,7 @@ export default function App() {
           onPress={() => {
             setIsVisibleModal(true);
             if (Platform.OS === 'android') {
-              // On Android, we need first need to discover the printers.
+              // On Android, we first need to discover the printers.
               // Then, given the IP address, if it exists, we can set it manually.
               SunmiSDK.discoverPrinters('LAN').catch((e) => {
                 showSunmiError(e as any);

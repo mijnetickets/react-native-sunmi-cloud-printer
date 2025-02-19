@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import com.sunmi.externalprinterlibrary2.printer.CloudPrinter
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import expo.modules.kotlin.functions.AsyncFunction
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.sunmicloudprinter.SunmiManager.Companion.printDebugLog
 
@@ -84,8 +85,16 @@ class ReactNativeSunmiCloudPrinterModule : Module() {
       sunmiManager.disconnectPrinter(context, promise)
     }
 
-    AsyncFunction("isPrinterConnected") { promise: Promise ->
-      sunmiManager.isPrinterConnected(promise)
+    AsyncFunction("isBluetoothPrinterConnected") { uuid: String, promise: Promise ->
+      sunmiManager.isBluetoothPrinterConnected(uuid, promise)
+    }
+
+    AsyncFunction("isLanPrinterConnected") { ipAddress: String, promise: Promise ->
+      sunmiManager.isLanPrinterConnected(ipAddress, promise)
+    }
+
+    AsyncFunction("isUSBPrinterConnected") { name: String, promise: Promise ->
+      sunmiManager.isUSBPrinterConnected(name, promise)
     }
 
     AsyncFunction("checkBluetoothPermissions") { promise: Promise ->

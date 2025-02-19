@@ -91,7 +91,8 @@ typedef enum : int {
  * 返回状态枚举定义
  */
 typedef enum : NSInteger {
-    SMPrinterStatus_Printing = 1,
+    SMPrinterStatus_Normal = 1,
+    SMPrinterStatus_Printing,
     SMPrinterStatus_NoPaper,
     SMPrinterStatus_RollIsExhausted,
     SMPrinterStatus_PaperJam,

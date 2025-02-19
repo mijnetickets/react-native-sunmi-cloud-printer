@@ -131,15 +131,32 @@ class SunmiManager {
         }
     }
 
-    fun isPrinterConnected(promise: Promise) {
+    fun isBluetoothPrinterConnected(uuid: String, promise: Promise) {
         val printer = cloudPrinter
-        if (printer != null) {
+        if (printer != null && printer.cloudPrinterInfo.mac == uuid) {
             promise.resolve(printer.isConnected)
         } else {
             promise.resolve(false)
         }
     }
 
+    fun isLanPrinterConnected(ipAddress: String, promise: Promise) {
+        val printer = cloudPrinter
+        if (printer != null && printer.cloudPrinterInfo.address == ipAddress) {
+            promise.resolve(printer.isConnected)
+        } else {
+            promise.resolve(false)
+        }
+    }
+
+    fun isUSBPrinterConnected(name: String, promise: Promise) {
+        val printer = cloudPrinter
+        if (printer != null && printer.cloudPrinterInfo.name == name) {
+            promise.resolve(printer.isConnected)
+        } else {
+            promise.resolve(false)
+        }
+    }
     // -----------------------
     // Low Level API methods
     // -----------------------
@@ -157,17 +174,17 @@ class SunmiManager {
     fun setTextAlign(alignment: Int, promise: Promise) {
         val printer = cloudPrinter
         if (printer != null) {
-            val alignStyle: AlignStyle
-
-            when (alignment) {
+            val alignStyle: AlignStyle = when (alignment) {
                 1 -> {
-                    alignStyle = AlignStyle.CENTER
+                    AlignStyle.CENTER
                 }
+
                 2 -> {
-                    alignStyle = AlignStyle.RIGHT
+                    AlignStyle.RIGHT
                 }
+
                 else -> {
-                    alignStyle = AlignStyle.LEFT
+                    AlignStyle.LEFT
                 }
             }
 

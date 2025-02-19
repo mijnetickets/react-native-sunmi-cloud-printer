@@ -11,10 +11,7 @@ module.exports = async (env, argv) => {
     },
     argv
   );
-  config.resolve.modules = [
-    path.resolve(__dirname, './node_modules'),
-    path.resolve(__dirname, '../node_modules'),
-  ];
+  config.resolve.modules = [path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../node_modules')];
 
   return config;
 };

@@ -24,8 +24,8 @@ const InterfaceButton: FC<Props> = ({ backgroundColor, disabled, onPress, select
         <Text
           style={{
             fontWeight: 'bold',
-            paddingVertical: 10,
-            paddingHorizontal: 15,
+            paddingVertical: 5,
+            paddingHorizontal: 5,
             color: textColor,
           }}
         >
