@@ -27,15 +27,14 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>react-native-sunmi-cloud-printer-example</string>
-          <string>expo.modules.sunmicloudprinter.example.app</string>
+          <string>expo.modules.sunmicloudprinter.example</string>
         </array>
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>6</string>
-    <key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -45,16 +44,6 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access bluetooth. Required to print the receipt</string>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access bluetooth. Required to print the receipt</string>
-    <key>NSLocalNetworkUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access local network. Required to print the receipt</string>
-    <key>NSUserActivityTypes</key>
-    <array>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
@@ -69,8 +58,6 @@
     <array>
       <string>UIInterfaceOrientationPortrait</string>
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UISupportedInterfaceOrientations~ipad</key>
     <array>
