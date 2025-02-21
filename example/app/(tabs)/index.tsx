@@ -69,6 +69,7 @@ export default function DiscoverScreen() {
     try {
       await discoverPrinters(selectedType);
     } catch (e) {
+      Alert.alert('Error', (e as Error | undefined)?.message);
       if (__DEV__) {
         console.error('Error discovering printers', e);
       }
@@ -109,14 +110,13 @@ export default function DiscoverScreen() {
     [onAddPrinter]
   );
 
-  const { onActionPress, isDisabledAction, actionButtonText } = useMemo(() => {
+  const { onActionPress, actionButtonText } = useMemo(() => {
     return {
       actionButtonText: isDiscovering
         ? 'Discovering...'
         : ipAddress.length > 0
           ? 'Add IP Printer'
           : 'Discover Printers',
-      isDisabledAction: isDiscovering,
       onActionPress:
         selectedType !== 'LAN'
           ? onDiscoverPrinters
@@ -132,7 +132,6 @@ export default function DiscoverScreen() {
     // Listen to changes in the native module.
     const printersSubscription = printersListener((event) => {
       setDiscoveredPrinters(event.printers);
-      setIsDiscovering(false);
     });
 
     return () => {
@@ -163,13 +162,15 @@ export default function DiscoverScreen() {
           <Text style={[styles.typeText, selectedType === 'LAN' && styles.selectedTypeText]}>Ethernet</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.typeButton, selectedType === 'USB' && styles.selectedType]}
-          onPress={() => handleTypeSelect('USB')}
-        >
-          <Ionicons name={Icons.usb} size={24} color={selectedType === 'USB' ? Colors.white : Colors.primary} />
-          <Text style={[styles.typeText, selectedType === 'USB' && styles.selectedTypeText]}>USB</Text>
-        </TouchableOpacity>
+        {Platform.OS === 'android' ? (
+          <TouchableOpacity
+            style={[styles.typeButton, selectedType === 'USB' && styles.selectedType]}
+            onPress={() => handleTypeSelect('USB')}
+          >
+            <Ionicons name={Icons.usb} size={24} color={selectedType === 'USB' ? Colors.white : Colors.primary} />
+            <Text style={[styles.typeText, selectedType === 'USB' && styles.selectedTypeText]}>USB</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
 
       {selectedType === 'LAN' && (
@@ -184,7 +185,11 @@ export default function DiscoverScreen() {
         </View>
       )}
 
-      <TouchableOpacity style={styles.actionButton} onPress={onActionPress} disabled={isDisabledAction}>
+      <TouchableOpacity
+        style={[styles.actionButton, { backgroundColor: isDiscovering ? Colors.gray : Colors.primary }]}
+        onPress={onActionPress}
+        disabled={isDiscovering}
+      >
         <Text style={styles.actionButtonText}>{actionButtonText}</Text>
       </TouchableOpacity>
 

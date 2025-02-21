@@ -1,4 +1,4 @@
-import { EventEmitter, Subscription } from 'expo-modules-core';
+import { EventSubscription } from 'expo-modules-core';
 import { Platform, PermissionsAndroid } from 'react-native';
 
 // Import the native module. On web, it will be resolved to ReactNativeSunmiCloudPrinter.web.ts
@@ -203,8 +203,6 @@ export function openCashDrawer(): Promise<void> {
   return ReactNativeSunmiCloudPrinterModule.openCashDrawer();
 }
 
-const emitter = new EventEmitter(ReactNativeSunmiCloudPrinterModule);
-
 export type CloudPrinterStatus =
   | 'OFFLINE'
   | 'UNKNOWN'
@@ -221,12 +219,12 @@ export async function getDeviceState(): Promise<CloudPrinterStatus> {
   return ReactNativeSunmiCloudPrinterModule.getDeviceState();
 }
 
-export function printersListener(listener: (event: PrintersEventPayload) => void): Subscription {
-  return emitter.addListener<PrintersEventPayload>('onUpdatePrinters', listener);
+export function printersListener(listener: (event: PrintersEventPayload) => void): EventSubscription {
+  return ReactNativeSunmiCloudPrinterModule.addListener('onUpdatePrinters', listener);
 }
 
-export function printerConnectionListener(listener: (event: PrinterConnectionPayload) => void): Subscription {
-  return emitter.addListener<PrinterConnectionPayload>('onPrinterConnectionUpdate', listener);
+export function printerConnectionListener(listener: (event: PrinterConnectionPayload) => void): EventSubscription {
+  return ReactNativeSunmiCloudPrinterModule.addListener('onPrinterConnectionUpdate', listener);
 }
 
 export { ReactNativeSunmiCloudPrinterView, ReactNativeSunmiCloudPrinterViewProps, PrintersEventPayload };
