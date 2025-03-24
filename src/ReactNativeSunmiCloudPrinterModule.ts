@@ -1,5 +1,17 @@
-import { requireNativeModule } from "expo-modules-core";
+import { NativeModule, requireNativeModule } from 'expo-modules-core';
 
-// It loads the native module object from the JSI or falls back to
-// the bridge module (from NativeModulesProxy) if the remote debugger is on.
-export default requireNativeModule("ReactNativeSunmiCloudPrinter");
+import { PrintersEventPayload, PrinterConnectionPayload } from './ReactNativeSunmiCloudPrinter.types';
+
+declare class ReactNativeSunmiCloudPrinterModule extends NativeModule {
+  addListener<EventName extends 'onUpdatePrinters'>(
+    eventName: EventName,
+    listener: (event: PrintersEventPayload) => void
+  ): { remove: () => void };
+  addListener<EventName extends 'onPrinterConnectionUpdate'>(
+    eventName: EventName,
+    listener: (event: PrinterConnectionPayload) => void
+  ): { remove: () => void };
+}
+
+// This call loads the native module object from the JSI.
+export default requireNativeModule<ReactNativeSunmiCloudPrinterModule>('ReactNativeSunmiCloudPrinter');

@@ -103,6 +103,13 @@ typedef void(^ResponseBlock)(NSString *deviceSN, SMPrinterStatus printerStatus, 
  * 向设备发送数据
  *
  * @param ipData 发送的数据
+ */
+- (void)controlDevicePrintingData:(NSData *)ipData;
+
+/**
+ * 向设备发送数据
+ *
+ * @param ipData 发送的数据
  * @param success 发送成功回调
  * @param fail 发送失败回调
  */

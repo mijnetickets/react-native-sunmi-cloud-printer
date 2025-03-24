@@ -10,7 +10,10 @@ Pod::Spec.new do |s|
   s.license        = package['license']
   s.author         = package['author']
   s.homepage       = package['homepage']
-  s.platforms      = { :ios => '13.4', :tvos => '13.4' }
+  s.platforms      = {
+    :ios => '15.1',
+    :tvos => '15.1'
+  }
   s.swift_version  = '5.4'
   s.source         = { git: 'https://github.com/MultiSafepay/react-native-sunmi-cloud-printer' }
   s.static_framework = true
@@ -20,11 +23,9 @@ Pod::Spec.new do |s|
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
-    'SWIFT_COMPILATION_MODE' => 'wholemodule'
   }
 
-  s.source_files = "Source/**/*.{h,m,swift}"
+  s.source_files = "Source/**/*.{h,m,mm,swift,hpp,cpp}"
   s.vendored_frameworks = "SDK/SunmiPrinterSDK.xcframework"
-  # s.libraries = "xml2.2"
   s.frameworks = "ExternalAccessory", "CoreBluetooth"
 end

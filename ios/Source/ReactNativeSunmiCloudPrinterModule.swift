@@ -59,8 +59,12 @@ public class ReactNativeSunmiCloudPrinterModule: Module {
       sunmiManager.disconnectPrinter(promise: promise)
     }
     
-    AsyncFunction("isPrinterConnected") { (promise: Promise) in
-      sunmiManager.isPrinterConnected(promise: promise)
+    AsyncFunction("isBluetoothPrinterConnected") { (uuid: String, promise: Promise) in
+      sunmiManager.isBluetoothPrinterConnected(uuid: uuid, promise: promise)
+    }
+    
+    AsyncFunction("isLanPrinterConnected") { (ipAddress: String, promise: Promise) in
+      sunmiManager.isLanPrinterConnected(ipAddress: ipAddress, promise: promise)
     }
     
     // Low level API methods

@@ -143,19 +143,26 @@ class SunmiManager: NSObject {
     promise.resolve()
   }
 
-  func isPrinterConnected(promise: Promise) {
-    guard let currentPrinter = currentPrinter else {
+  func isBluetoothPrinterConnected(uuid: String, promise: Promise) {
+    // We check if the currently connected printer is the one that it's connected to uuid
+    guard let currentPrinter = currentPrinter,
+          case let .bluetooth(periperhal) = currentPrinter,
+            periperhal.identifier.uuidString == uuid else {
       promise.resolve(false)
       return
     }
-    switch currentPrinter {
-    case .bluetooth:
-      promise.resolve(SunmiPrinterManager.shareInstance().bluetoothIsConnection())
-      break
-    case .ip:
-      promise.resolve(SunmiPrinterIPManager.shared().isConnectedIPService())
-      break
+    promise.resolve(SunmiPrinterManager.shareInstance().bluetoothIsConnection())
+  }
+  
+  func isLanPrinterConnected(ipAddress: String, promise: Promise) {
+    // We check if the currently connected printer is the one that it's connected to ipAddress
+    guard let currentPrinter = currentPrinter,
+          case let .ip(address: address) = currentPrinter,
+            ipAddress == address else {
+      promise.resolve(false)
+      return
     }
+    promise.resolve(SunmiPrinterIPManager.shared().isConnectedIPService())
   }
   
   func disconnectPrinter(promise: Promise) {

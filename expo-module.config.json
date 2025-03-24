@@ -1,9 +1,11 @@
 {
-  "platforms": ["ios", "tvos", "android", "web"],
-  "ios": {
+  "platforms": ["apple", "android", "web"],
+  "apple": {
     "modules": ["ReactNativeSunmiCloudPrinterModule"]
   },
   "android": {
-    "modules": ["expo.modules.sunmicloudprinter.ReactNativeSunmiCloudPrinterModule"]
+    "modules": [
+      "expo.modules.sunmicloudprinter.ReactNativeSunmiCloudPrinterModule"
+    ]
   }
 }

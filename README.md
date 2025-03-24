@@ -1,6 +1,10 @@
 # react-native-sunmi-cloud-printer
 
-React Native Sunmi Cloud Printer SDK
+React Native Sunmi Cloud Printer SDK:
+This SDK wraps the Sunmi native SDKs and expose them to React Native.
+
+- [iOS - SMPrinterSDKProject V1.6.6](https://developer.sunmi.com/docs/en-US/xeghjk491/fdfeghjk535)
+- [Android - externalprinterlibrary2-1.0.13](https://developer.sunmi.com/docs/en-US/xeghjk491/rxceghjk502)
 
 # API documentation
 
@@ -22,17 +26,17 @@ npm install react-native-sunmi-cloud-printer
 ```
 
 ### General configuration
-Please, do not forget to add the Expo config plugin to your app. Otherwise, the app will crash on Android due to not having the native external Sunmi Printer library. 
+
+Please, do not forget to add the Expo config plugin to your app. Otherwise, the app will crash on Android due to not having the native external Sunmi Printer library.
 
 ### Configure for iOS
 
 Run `npx pod-install` after installing the npm package.
 
-
 ### Configure for Android
-Due to an issue with the Android Gradle Plugin (AGP) that doesn't support direct local AAR dependencies in Android library projects, the Consumer's app must declare as a dependency the AAR library.
 
+Due to an issue with the Android Gradle Plugin (AGP) that doesn't support direct local AAR dependencies in Android library projects, the Consumer's app must declare as a dependency the AAR library.
 
 # Contributing
 
-Contributions are very welcome! Please refer to guidelines described in the [contributing guide]( https://github.com/expo/expo#contributing).
+Contributions are very welcome! Please refer to guidelines described in the [contributing guide](https://github.com/expo/expo#contributing).
