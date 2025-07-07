@@ -1,4 +1,4 @@
-import { NativeModule, requireNativeModule } from 'expo-modules-core';
+import { NativeModule, requireNativeModule } from 'expo';
 
 import { PrintersEventPayload, PrinterConnectionPayload } from './ReactNativeSunmiCloudPrinter.types';
 

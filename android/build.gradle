@@ -29,10 +29,6 @@ if (useManagedAndroidSdkVersions) {
       targetSdkVersion safeExtGet("targetSdkVersion", 34)
     }
   }
-
-  repositories {
-    mavenCentral()
-  }
 }
 
 android {

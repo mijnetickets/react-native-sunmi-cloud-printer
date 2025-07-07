@@ -4,8 +4,6 @@
     "modules": ["ReactNativeSunmiCloudPrinterModule"]
   },
   "android": {
-    "modules": [
-      "expo.modules.sunmicloudprinter.ReactNativeSunmiCloudPrinterModule"
-    ]
+    "modules": ["expo.modules.sunmicloudprinter.ReactNativeSunmiCloudPrinterModule"]
   }
 }
