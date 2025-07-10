@@ -27,5 +27,5 @@ Pod::Spec.new do |s|
 
   s.source_files = "Source/**/*.{h,m,mm,swift,hpp,cpp}"
   s.vendored_frameworks = "SDK/SunmiPrinterSDK.xcframework"
-  s.frameworks = "ExternalAccessory", "CoreBluetooth"
+  # s.frameworks = "ExternalAccessory", "CoreBluetooth"
 end

@@ -1,4 +1,3 @@
-import { EventSubscription } from 'expo-modules-core';
 import { Platform, PermissionsAndroid } from 'react-native';
 
 // Import the native module. On web, it will be resolved to ReactNativeSunmiCloudPrinter.web.ts
@@ -219,11 +218,11 @@ export async function getDeviceState(): Promise<CloudPrinterStatus> {
   return ReactNativeSunmiCloudPrinterModule.getDeviceState();
 }
 
-export function printersListener(listener: (event: PrintersEventPayload) => void): EventSubscription {
+export function printersListener(listener: (event: PrintersEventPayload) => void) {
   return ReactNativeSunmiCloudPrinterModule.addListener('onUpdatePrinters', listener);
 }
 
-export function printerConnectionListener(listener: (event: PrinterConnectionPayload) => void): EventSubscription {
+export function printerConnectionListener(listener: (event: PrinterConnectionPayload) => void) {
   return ReactNativeSunmiCloudPrinterModule.addListener('onPrinterConnectionUpdate', listener);
 }
 

@@ -1,8 +1,15 @@
 {
   "name": "react-native-sunmi-cloud-printer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "React Native Sunmi Cloud Printer SDK",
   "main": "build/index.js",
+  "exports": {
+    ".": {
+      "default": "./build/index.js",
+      "types": "./build/index.d.ts"
+    },
+    "./app.plugin.js": "./app.plugin.js"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "expo-module build",
@@ -30,10 +37,10 @@
   "homepage": "https://github.com/MultiSafepay/react-native-sunmi-cloud-printer#readme",
   "dependencies": {},
   "devDependencies": {
-    "@types/react": "~18.3.12",
-    "expo-module-scripts": "^4.0.4",
-    "expo": "~52.0.0",
-    "react-native": "~0.76.0"
+    "@types/react": "~19.0.0",
+    "expo-module-scripts": "^4.1.9",
+    "expo": "~53.0.0",
+    "react-native": "0.79.1"
   },
   "peerDependencies": {
     "expo": "*",

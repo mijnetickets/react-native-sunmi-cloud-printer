@@ -1,16 +1,15 @@
 package expo.modules.sunmicloudprinter
 
-import android.util.Log
-import expo.modules.kotlin.modules.Module
-import expo.modules.kotlin.modules.ModuleDefinition
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import androidx.core.os.bundleOf
 import com.sunmi.externalprinterlibrary2.printer.CloudPrinter
-import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
-import expo.modules.kotlin.functions.AsyncFunction
 import expo.modules.kotlin.functions.Coroutine
+import expo.modules.kotlin.modules.Module
+import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.Promise
 import expo.modules.sunmicloudprinter.SunmiManager.Companion.printDebugLog
 
 const val UPDATE_PRINTERS_EVENT_NAME = "onUpdatePrinters"

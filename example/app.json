@@ -1,14 +1,15 @@
 {
   "expo": {
     "name": "react-native-sunmi-cloud-printer-example",
-    "slug": "react-native-sunmi-cloud-printer-example",
+    "slug": "react-native-sunmi-cloud-printer",
     "scheme": "react-native-sunmi-cloud-printer-example",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -31,6 +32,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "edgeToEdgeEnabled": true,
       "package": "expo.modules.sunmicloudprinter.example.app",
       "permissions": [
         "ACCESS_COARSE_LOCATION",
@@ -50,8 +52,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "3309ea6e-7d6f-488a-8e42-fb2e7bcd444a"
+        "projectId": "67a07d8b-20de-44bc-aff6-6505364a61d2"
       }
-    }
+    },
+    "owner": "multisafepay-org"
   }
 }

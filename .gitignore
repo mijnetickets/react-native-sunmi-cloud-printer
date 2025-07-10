@@ -3,7 +3,7 @@
 .DS_Store
 
 # VSCode
-.vscode/*
+.vscode/
 !.vscode/settings.json
 jsconfig.json
 
@@ -37,6 +37,8 @@ project.xcworkspace
 .settings
 local.properties
 android.iml
+android/app/libs
+android/keystores/debug.keystore
 
 # Cocoapods
 #
@@ -52,14 +54,12 @@ npm-debug.log
 yarn-debug.log
 yarn-error.log
 
-# BUCK
-buck-out/
-\.buckd/
-android/app/libs
-android/keystores/debug.keystore
-
 # Expo
 .expo/*
 
-# Android
-*.apk
+# builds
+example/build-*.tar.gz
+example/reactnativesunmicloudprinterexample.app
+example/build-*.apk
+example/build-*.aab
+example/build-*.ipa
