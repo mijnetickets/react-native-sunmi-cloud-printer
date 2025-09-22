@@ -14,6 +14,7 @@ import com.sunmi.externalprinterlibrary2.printer.CloudPrinter
 import com.sunmi.externalprinterlibrary2.style.AlignStyle
 import com.sunmi.externalprinterlibrary2.style.CloudPrinterStatus
 import com.sunmi.externalprinterlibrary2.style.ImageAlgorithm
+import com.sunmi.externalprinterlibrary2.style.EncodeType
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
 import kotlinx.coroutines.delay
@@ -239,6 +240,7 @@ class SunmiManager {
     fun addText(text: String, promise: Promise) {
         val printer = cloudPrinter
         if (printer != null) {
+            printer.setEncodeMode(EncodeType.UTF_8)
             printer.printText(text)
             promise.resolve()
         } else {
