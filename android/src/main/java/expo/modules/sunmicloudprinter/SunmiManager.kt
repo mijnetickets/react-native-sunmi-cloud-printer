@@ -200,7 +200,9 @@ class SunmiManager {
         val printer = cloudPrinter
         if (printer != null) {
             printer.setBoldMode(bold)
-            // doubleHeight and doubleWidth are ignored in Android
+            // Apply character magnification. setCharacterSize takes width,height in
+            // 1..8 (1 = normal, 2 = double); the lib previously ignored these on Android.
+            printer.setCharacterSize(if (doubleWidth) 2 else 1, if (doubleHeight) 2 else 1)
             promise.resolve()
         } else {
             promise.rejectWithSunmiError(SunmiPrinterError.PRINTER_NOT_CONNECTED)
